@@ -5,7 +5,7 @@ export function imagesRender(arr) {
         .map(
             arr =>
                 `<li class="gallery-list"><div class="gallery"><a href="${arr.largeImageURL}"><img src="${arr.webformatURL}" alt="${arr.tags}" width="360px" height="100px"></a>
-        <ul class="img-cont-list">
+      <ul class="img-cont-list">
       <li class="img-cont-item">Likes<p class="img-cont-descr">${arr.likes}</p></li>
       <li class="img-cont-item">Views<p class="img-cont-descr">${arr.views}</p></li>
       <li class="img-cont-item">Comments<p class="img-cont-descr">${arr.comments}</p></li>

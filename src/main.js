@@ -30,7 +30,6 @@ form.addEventListener('submit', async (event) => {
                 message: 'Sorry, there are no images matching your search query. Please try again!',
             });
             gallery.innerHTML = '';
-            submitBtn.disabled = true;
             return;
         }
         gallery.innerHTML = imagesRender(data.hits);
@@ -50,6 +49,7 @@ form.addEventListener('submit', async (event) => {
 loadMore.addEventListener('click', onLoadMore);
 
 async function onLoadMore() {
+
     loadMore.classList.add('hidden');
     page += 1;
     loaderPlace.innerHTML = `<div class="loading">Loading...  <span class="loader"></span></div>`;

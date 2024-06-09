@@ -19,7 +19,14 @@ form.addEventListener('submit', async (event) => {
     gallery.innerHTML = '';
     findText = new FormData(form).get('find-text');
 
-    if (!findText) return;
+    if (!findText) {
+        loadMore.style.display = 'none';
+        iziToast.error({
+            position: 'topRight',
+            message: 'Sorry, there are no images matching your search query. Please try again!',
+        });
+        return;
+    }
 
     gallery.innerHTML = `<div class="loader"></div>`;
     try {
@@ -30,6 +37,7 @@ form.addEventListener('submit', async (event) => {
                 message: 'Sorry, there are no images matching your search query. Please try again!',
             });
             gallery.innerHTML = '';
+            loadMore.style.display = 'none';
             return;
         }
         gallery.innerHTML = imagesRender(data.hits);
@@ -41,7 +49,6 @@ form.addEventListener('submit', async (event) => {
         });
     } finally {
         event.target.reset()
-        loadMore.classList.remove('hidden');
         loadMore.style.display = 'block';
     }
 });
@@ -50,18 +57,18 @@ loadMore.addEventListener('click', onLoadMore);
 
 async function onLoadMore() {
 
-    loadMore.classList.add('hidden');
+    loadMore.style.display = 'none';
     page += 1;
     loaderPlace.innerHTML = `<div class="loading">Loading...  <span class="loader"></span></div>`;
 
     try {
         const data = await pixabayApi(findText, page);
         if (data.hits.length === 0) {
-            loadMore.classList.add('hidden');
             iziToast.info({
                 position: 'topRight',
                 message: 'Sorry, there are no images matching your search query. Please try again!',
             });
+            loadMore.style.display = 'none';
         } else {
             gallery.insertAdjacentHTML('beforeend', imagesRender(data.hits));
             imgBoxLight();
@@ -69,6 +76,7 @@ async function onLoadMore() {
                 top: 720,
                 behavior: 'smooth',
             });
+            loadMore.style.display = 'block';
         }
     } catch {
         iziToast.error({
@@ -78,6 +86,6 @@ async function onLoadMore() {
         loadMore.style.display = 'none';
     } finally {
         loaderPlace.innerHTML = '';
-        loadMore.classList.remove('hidden');
+
     }
 }
